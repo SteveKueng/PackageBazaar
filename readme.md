@@ -6,7 +6,6 @@
 * Python
 * munki repo
 * munkitools
-* Docker (optional for database)
 
 ### Install python:
 The easiest way is to install it via Homebrew. (follow this article to install Homebrew: https://docs.brew.sh/Homebrew-and-Python)
