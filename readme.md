@@ -34,5 +34,5 @@ Do not change DEBUG to 0.
 
     ./devScripts/startDevServer.sh
 
-### access munkiwebadmin
+### access
 Check out http://localhost:8000
