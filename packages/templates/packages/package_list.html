@@ -8,13 +8,13 @@
     {% tailwind_css %}
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-customBlack text-white">
+<body class=" text-white">
 
     <!-- Navbar (Schwarz mit Suchfeld) -->
     <nav class="bg-black text-white py-4 px-6 flex justify-between items-center shadow-lg">
         <div class="flex items-center space-x-4">
             <div class="w-10 h-10 bg-gray-800 rounded-full"></div>  <!-- Platzhalter für Logo -->
-            <span class="text-2xl font-bold text-customYellow">PackageBazaar</span>
+            <span class="text-2xl font-bold text-white">PackageBazaar</span>
         </div>
         
         <!-- Suchfeld in der Navbar 
@@ -27,26 +27,36 @@
     <!-- Main Content -->
     <div class="container mx-auto mt-8 px-4">
        
+        <div class="grid 2xl:grid-cols-3 xl:grid-cols-2 grid-cols-1 gap-6">
         {% for package in packages %}
-            <div class="grid md:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-6">
-                <div class="package-card bg-gray-900 text-white rounded-lg shadow-lg p-4 border-2 border-customYellow flex items-center space-x-4"
+                <div class="package-card bg-customYellow text-black shadow-lg p-4 border-2 border-customYellow flex-col"
                      data-name="{{ package.name }}" data-desc="{{ package.description }}">
+                    <div class="flex space-x-4">
                     
                     <!-- Paket-Icon -->
-                    <img src="{{ package.icon }}" alt="{{ package.name }} Icon" class="w-12 h-12 rounded-lg bg-gray-700">
+                    <img src="{{ package.icon }}" alt="{{ package.name }} Icon" class="w-12 h-12 rounded-lg ">
                     
                     <!-- Paket-Informationen -->
-                    <div>
-                        <h2 class="text-xl font-bold text-customYellow">{{ package.display_name }}</h2>
-                        <p class="text-gray-300">{{ package.developer }}</p>
-                        <p class="text-gray-400 text-sm mt-2">{{ package.category }}</p>
+                    <div class="flex flex-col">
+                        <h2 class="text-xl font-bold text-black">{{ package.display_name }}</h2>
+                        <span class="text-gray-700">{{ package.developer }}</span>
+                        <span class="text-gray-400 text-sm mt-2">{{ package.category }}</span>
+                        
+                    </div>
+                    </div>
+                    <div class="flex flex-wrap"> 
                         {% for catalog in package.catalogs %}
-                            <p class="text-gray-400 text-sm mt-2">{{ catalog.name }}: {{ catalog.version }}</p>
+                            <div class="flex p-1">
+                                <div class=" bg-black text-white px-2">{{ catalog.name }}</div>
+                                <div class=" border border-black px-2">{{ catalog.version }}</div>
+                            </div>
+                            <!--<p class="bg-black rounded-full px-3 py-1 text-gray-400 text-sm shadow-lg"><span class="font-bold">{{ catalog.name }}:</span> {{ catalog.version }}</p>-->
                         {% endfor %}
                     </div>
                 </div>
-            </div>
+            
         {% endfor %}
+        </div>
     </div>
 </body>
 </html>
