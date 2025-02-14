@@ -2,12 +2,19 @@ import base64
 from django.shortcuts import render
 from .models import MunkiRepo
 
+from django.conf import settings
+
 def package_list_view(request):
     """Get all catalogs and packages from the Munki repo"""
 
-    catalog = MunkiRepo.read('catalogs', 'all')
+    app_name = getattr(settings, "APP_NAME", "PackageBazaar")
 
-    itemlist = []
+    catalog = []
+    catalogs_to_display = settings.CATALOGS_TO_DISPLAY
+    for catalog_to_display in catalogs_to_display:
+        catalog += MunkiRepo.read('catalogs', catalog_to_display)
+
+        itemlist = []
     package_dict = {}  # Dictionary for quick lookup of package names
 
     for item in catalog:
@@ -19,6 +26,9 @@ def package_list_view(request):
             catalogs = item.get('catalogs', [])
 
             for catalog in catalogs:
+                if catalog not in catalogs_to_display:
+                    continue
+
                 catalog_version = {
                     'name': catalog,
                     'version': item['version']
@@ -37,7 +47,7 @@ def package_list_view(request):
             # Create a new package entry
             package_item = {
                 'name': item['name'],
-                'display_name': item['display_name'],
+                'display_name': item.get('display_name', item['name']),
                 'version': item['version'],
                 'developer': item.get('developer', None),
                 'categorie': item.get('categorie', None),
@@ -49,6 +59,9 @@ def package_list_view(request):
             # Add catalogs and ensure only one version per catalog exists
             catalogs = item.get('catalogs', [])
             for catalog in catalogs:
+                if catalog not in catalogs_to_display:
+                    continue
+                
                 catalog_version = {
                     'name': catalog,
                     'version': item['version']
@@ -79,5 +92,6 @@ def package_list_view(request):
             itemlist.append(package_item)
 
     return render(request, "packages/package_list.html", {
-        "packages": itemlist
+        "packages": itemlist,
+        "app_name": app_name
     })

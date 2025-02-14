@@ -40,8 +40,11 @@ MUNKITOOLS_DIR = os.getenv('MUNKITOOLS_DIR', '/munkitools')
 if not os.path.exists(MUNKITOOLS_DIR):
     MUNKITOOLS_DIR = os.path.join(BASE_DIR, 'munkitools')
 
+CATALOGS_TO_DISPLAY = os.getenv('CATALOGS_TO_DISPLAY', '[]').split()
 
 TAILWIND_APP_NAME = "theme"
+
+APP_NAME = os.getenv('APP_NAME', 'PackageBazaar')
 
 # Application definition
 
